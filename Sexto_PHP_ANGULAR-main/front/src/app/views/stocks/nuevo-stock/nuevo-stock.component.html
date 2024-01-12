@@ -1,0 +1,55 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="stock" (ngSubmit)="grabar()">
+      <!-- Agrega campos estáticos para ProductoId y ProveedorId -->
+      <div class="mb-2">
+        <label for="ProductoId">Producto ID</label>
+        <input type="text" class="form-control" formControlName="ProductoId" disabled />
+      </div>
+      <div class="mb-2">
+        <label for="ProveedorId">Proveedor ID</label>
+        <input type="text" class="form-control" formControlName="ProveedorId" disabled />
+      </div>
+
+      <div class="mb-2">
+        <label for="Cantidad">Cantidad</label>
+        <input type="number" class="form-control" formControlName="Cantidad" />
+        <!-- Validaciones para Cantidad -->
+        <div *ngIf="stock.get('Cantidad').invalid && (stock.get('Cantidad').dirty || stock.get('Cantidad').touched)">
+          <div class="alert" *ngIf="stock.get('Cantidad').errors?.required">
+            La cantidad es requerida
+          </div>
+          <div class="alert" *ngIf="stock.get('Cantidad').errors?.number">
+            No posee el formato correcto para la cantidad
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <label for="Precio_Venta">Precio Venta</label>
+        <input type="text" class="form-control" formControlName="Precio_Venta" pattern="[0-9]{4,}\.[0-9]{2}" />
+        <!-- Validaciones para Precio_Venta -->
+        <div *ngIf="stock.get('Precio_Venta').invalid && (stock.get('Precio_Venta').dirty || stock.get('Precio_Venta').touched)">
+          <div class="alert" *ngIf="stock.get('Precio_Venta').errors?.required">
+            El precio es requerido
+          </div>
+          <div class="alert" *ngIf="stock.get('Precio_Venta').errors?.pattern">
+            El formato del precio es incorrecto. Debe tener al menos 4 cifras y dos decimales.
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <button type="submit" class="btn btn-primary" [disabled]="!stock.valid">
+          Grabar
+        </button>
+        <button class="btn btn-secondary" routerLink="/stocks">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

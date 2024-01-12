@@ -1,0 +1,60 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="producto" (ngSubmit)="grabar()">
+      <div class="mb-2">
+        <label for="Nombre">Nombre</label>
+        <input type="text" class="form-control" formControlName="Nombre" />
+        @if (producto.invalid && (producto.dirty || producto.touched)) {
+        <div class="alert">
+          @if (producto.errors?.["required"]) {
+          <div class="ng-invalid">Nombre es requerido</div>
+          }
+        </div>
+        }
+      </div>
+      <div class="mb-2">
+        <label for="Precio">Precio</label>
+        <input type="text" class="form-control" formControlName="Precio" pattern="[0-9]{4,}\.[0-9]{2}" />
+        @if (producto.invalid && (producto.dirty || producto.touched)) {
+            <div class="alert">
+                @if (producto.errors?.["required"]) {
+                    <div class="ng-invalid">El precio es requerido</div>
+                } else if (producto.errors?.["pattern"]) {
+                    <div>El formato del precio es incorrecto. Debe tener al menos 4 cifras y dos decimales.</div>
+                }
+            </div>
+        }
+    </div>
+    
+    </div>
+    <div class="mb-2">
+      <label for="Cantidad">Cantidad</label>
+      <input type="number" class="form-control" formControlName="Cantidad" />
+      @if (producto.invalid && (producto.dirty || producto.touched)) {
+          <div class="alert">
+              @if (producto.errors?.["required"]) {
+                  <div class="ng-invalid">La cantidad es requerida</div>
+              } else if (producto.errors?.["number"]) {
+                  <div>No posee el formato correcto para la cantidad</div>
+              }
+          </div>
+      }
+  </div>  
+      <div class="mb-2">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!producto.valid"
+        >
+          Grabar
+        </button>
+        <button class="btn btn-secondary" routerLink="/productos">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
